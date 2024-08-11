@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Logout({ setUser }) {
     const navigate = useNavigate();
-
+    const URL_API = process.env.REACT_APP_URL_API;
     useEffect(() => {
-        fetch('http://localhost:5001/logout', { credentials: 'include' })
+        fetch(`${URL_API}logout`, { credentials: 'include' })
             .then(() => {
                 setUser(null);
                 navigate('/'); // Điều hướng về trang chủ sau khi logout

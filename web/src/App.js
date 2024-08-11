@@ -7,16 +7,16 @@ import Home from './Home';
 
 function App() {
     const [user, setUser] = useState(null);
-
+    const URL_API = process.env.REACT_APP_URL_API;
     useEffect(() => {
-        fetch('http://localhost:5001/profile', { credentials: 'include' })
+        fetch(`${URL_API}profile`, { credentials: 'include' })
             .then(response => response.json())
             .then(data => setUser(data))
             .catch(error => console.log('Error fetching user:', error));
     }, []);
 
     const handleLogout = () => {
-        fetch('http://localhost:5001/logout', { credentials: 'include' })
+        fetch(`${URL_API}logout`, { credentials: 'include' })
             .then(() => {
                 setUser(null);
                 window.location.href = '/'; // Điều hướng về trang chủ sau khi logout

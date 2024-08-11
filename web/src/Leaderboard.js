@@ -5,8 +5,9 @@ const Leaderboard = () => {
     const [leaderboard, setLeaderboard] = useState([]);
     const [timeFrame, setTimeFrame] = useState('Overall');
 
+    const URL_API = process.env.REACT_APP_URL_API;
     useEffect(() => {
-        fetch('http://localhost:5001/api/leaderboard', { credentials: 'include' })
+        fetch(`${URL_API}api/leaderboard`, { credentials: 'include' })
             .then(response => response.json())
             .then(data => {
                 console.info("===========[] ===========[] : ",data);
@@ -17,7 +18,7 @@ const Leaderboard = () => {
 
     const handleTimeFrameChange = (selectedTimeFrame) => {
         setTimeFrame(selectedTimeFrame);
-        fetch(`http://localhost:5001/api/leaderboard?timeFrame=${selectedTimeFrame}`, { credentials: 'include' })
+        fetch(`${URL_API}api/leaderboard?timeFrame=${selectedTimeFrame}`, { credentials: 'include' })
             .then(response => response.json())
             .then(data => {
                 setLeaderboard(data);

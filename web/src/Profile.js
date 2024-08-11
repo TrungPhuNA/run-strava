@@ -5,7 +5,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 const Profile = () => {
     const location = useLocation();
     const [user, setUser] = useState(null);
-
+    const URL_API = process.env.REACT_APP_URL_API;
     useEffect(() => {
         // Lấy thông tin từ query params
         const queryParams = new URLSearchParams(location.search);
@@ -13,7 +13,7 @@ const Profile = () => {
 
         // Fetch thông tin người dùng từ backend
         if (stravaId) {
-            fetch(`http://localhost:5001/profile`, { credentials: 'include' })
+            fetch(`${URL_API}profile`, { credentials: 'include' })
                 .then(response => response.json())
                 .then(data => setUser(data));
         }

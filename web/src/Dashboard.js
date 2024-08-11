@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Leaderboard from './Leaderboard';
 import { useNavigate } from 'react-router-dom';
+const URL_API = process.env.REACT_APP_URL_API;
 
 const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
         // Gọi API để cập nhật dữ liệu hoạt động từ Strava
-        fetch('http://localhost:5001/api/activities/update', { credentials: 'include' })
+        fetch(`${URL_API}api/activities/update`, { credentials: 'include' })
             .then(response => {
                 if (response.status === 401) {
                     // Nếu người dùng chưa đăng nhập hoặc session đã hết hạn

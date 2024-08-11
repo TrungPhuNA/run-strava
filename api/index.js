@@ -8,15 +8,18 @@ require('dotenv').config();
 
 const User = require('./models/User');
 
+const PORT = process.env.PORT || 5012;
+
 const app = express();
+const URL_WEB = process.env.URL_WEB;
 
 // Cấu hình CORS để cho phép các yêu cầu từ frontend
 app.use(cors({
-    origin: 'http://localhost:3000', // Cho phép frontend ở cổng 3000
+    origin: `${URL_WEB}`, // Cho phép frontend ở cổng 3000
     credentials: true
 }));
 
-mongoose.connect('mongodb://localhost:27017/strava_app', {
+mongoose.connect(`${process.env.URL_DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 30000, // Tăng thời gian chờ kết nối
@@ -70,7 +73,7 @@ app.get('/auth/strava/callback', async (req, res) => {
         console.log('User saved to session:', req.session.user);
 
         // Điều hướng tới Dashboard thay vì Profile
-        res.redirect('http://localhost:3000/dashboard');
+        res.redirect(`${URL_WEB}/dashboard`);
     } catch (error) {
         console.error('Error exchanging token:', error.response.data);
         res.redirect('/');
@@ -207,6 +210,6 @@ app.get('/api/leaderboard', async (req, res) => {
 
 
 // Khởi động server
-app.listen(5001, () => {
-    console.log('Server is running on http://localhost:5001');
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
