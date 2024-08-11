@@ -177,29 +177,21 @@ const calculateTotalDistance = (activities) => {
 
 app.get('/api/leaderboard', async (req, res) => {
     try {
-        const { timeFrame } = req.query;
+        const { startDate, endDate } = req.query;
+        let filter = {};
 
-        let startDate;
-        switch (timeFrame) {
-            case 'This Week':
-                startDate = moment().startOf('week').toDate();
-                break;
-            case 'This Month':
-                startDate = moment().startOf('month').toDate();
-                break;
-            case 'This Year':
-                startDate = moment().startOf('year').toDate();
-                break;
-            default:
-                startDate = null; // Trả về tổng thể nếu không có timeFrame
+        if (startDate && endDate) {
+            filter.lastUpdated = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        } else if (startDate) {
+            filter.lastUpdated = { $gte: new Date(startDate) };
+        } else if (endDate) {
+            filter.lastUpdated = { $lte: new Date(endDate) };
         }
 
-        let users;
-        if (startDate) {
-            users = await User.find({ lastUpdated: { $gte: startDate } }).sort({ totalDistance: -1 });
-        } else {
-            users = await User.find().sort({ totalDistance: -1 });
-        }
+        const users = await User.find(filter).sort({ totalDistance: -1 });
 
         res.json(users);
     } catch (error) {

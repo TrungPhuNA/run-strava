@@ -45,7 +45,7 @@ function App() {
                                     <Button variant="outline-light" onClick={handleLogout}>Logout</Button>
                                 </>
                             ) : (
-                                <Button variant="outline-light" href="http://localhost:5001/auth/strava">Login with Strava</Button>
+                                <Button variant="outline-light" href={`${URL_API}auth/strava`}>Login with Strava</Button>
                             )}
                         </Nav>
                     </Navbar.Collapse>
